@@ -6,7 +6,7 @@ Created on Fri Nov  1 23:15:58 2019
 """
 
 
-###IMPORT DATA
+###Import Data
 import pandas as pd
 csv_file = r'C:\Users\TXF10LQ\OneDrive - The Home Depot\Documents\ML\ml_book_giron\spam_classifier.csv'
 data = pd.read_csv(csv_file,encoding='latin-1')
@@ -16,30 +16,28 @@ dataset = dataset.rename(columns={"v1":"label", "v2":"text"})
 dataset.head()
 
 
-###DESCRIBE DATASET 
+###Describe Dataset
 dataset.describe()
-###MORE HAM THAN SPAM
 dataset.groupby('label')['text'].count()
 
-###convert label to a numerical variable
+###Convert label to a numerical variable
 dataset['numerical_label'] = dataset.label.map({'ham':0, 'spam':1})
 dataset.head()
 
-###plot pie chart
+###Plot pie chart
 import matplotlib.pyplot as plt
 dataset["label"].value_counts().plot(kind = 'pie', explode = [0, 0.1], figsize = (6, 6), autopct = '%1.1f%%', shadow = True)
 plt.ylabel("Spam vs Ham")
 plt.legend(["Ham", "Spam"])
 plt.show()
 
-#top messages
+###Top messages
 import numpy as np
 topMessages = dataset.groupby("text")["label"].agg([len, np.max]).sort_values(by = "len", ascending = False).head(n = 10)
 
-###
 
-#Text Preprocessing
-#nltk.download("all")
+###Text Preprocessing
+##nltk.download("all")
 ##from nltk.corpus import nltk.download('punkt')
 from nltk.corpus import stopwords
 import string
@@ -100,7 +98,7 @@ spam_words = np.array(spam_words)
 print("Top 10 Spam words are :\n")
 pd.Series(spam_words).value_counts().head(n = 10)
 
-###length of the message
+###Length of the message
 dataset["messageLength"] = dataset["text"].apply(len)
 dataset["messageLength"].describe()
 
